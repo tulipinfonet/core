@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	  <TargetFrameworks>net6.0</TargetFrameworks>
+    <Version>3.0.0</Version>
+    <Company>TulipInfo.Net</Company>
+    <Authors>TulipInfo.Net</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../key.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+</Project>
