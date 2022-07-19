@@ -8,6 +8,7 @@
     <Company>TulipInfo.Net</Company>
     <Authors>TulipInfo.Net</Authors>
     <Version>6.0.0</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
