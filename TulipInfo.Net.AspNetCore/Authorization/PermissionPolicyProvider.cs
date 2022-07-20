@@ -8,14 +8,14 @@ namespace TulipInfo.Net.AspNetCore
     {
         const string DefaultAuthenticationScheme = "Bearer";
 
-        private DefaultAuthorizationPolicyProvider BackupPolicyProvider { get; }
-        private IAuthenticationSchemeProvider SchemeProvider { get; }
+        DefaultAuthorizationPolicyProvider _backupPolicyProvider;
+        IAuthenticationSchemeProvider _schemeProvider;
         public PermissionPolicyProvider(IAuthenticationSchemeProvider schemeProvider, IOptions<AuthorizationOptions> options)
         {
             // ASP.NET Core only uses one authorization policy provider, so if the custom implementation
             // doesn't handle all policies it should fall back to an alternate provider.
-            BackupPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
-            SchemeProvider= schemeProvider;
+            _backupPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
+            _schemeProvider= schemeProvider;
         }
 
         public async Task<AuthorizationPolicy> GetDefaultPolicyAsync()
@@ -49,12 +49,12 @@ namespace TulipInfo.Net.AspNetCore
                 return policy.Build();
             }
 
-            return await BackupPolicyProvider.GetPolicyAsync(policyName);
+            return await _backupPolicyProvider.GetPolicyAsync(policyName);
         }
 
         private async Task<string> GetDefaultAuthenticationScheme()
         {
-            var scheme = await SchemeProvider.GetDefaultAuthenticateSchemeAsync();
+            var scheme = await _schemeProvider.GetDefaultAuthenticateSchemeAsync();
             if (scheme != null)
             {
                 return scheme.Name;

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace TulipInfo.Net.AspNetCore
+namespace TulipInfo.Net.AspNetCore.Authorization
 {
     public static class ClaimsPrincipalExtension
     {
@@ -14,55 +14,44 @@ namespace TulipInfo.Net.AspNetCore
             return false;
         }
 
-        public static bool HasPermission(this ClaimsPrincipal pri, string permission)
+        public static bool HasAllPermissions(this ClaimsPrincipal pri, string[] permissions,
+            string adminRoleName = PermissionAuthorizationOptions.DefaultAdministratorRoleName,
+            string permissionClaimType = PermissionAuthorizationOptions.DefaultPermissionClaimType)
         {
             if (pri != null && pri.Identity != null && pri.Identity.IsAuthenticated)
             {
-                if (pri.HasRole(Constants.Roles.Admin))
+                if (!string.IsNullOrWhiteSpace(adminRoleName) && pri.HasRole(adminRoleName))
                 {
                     return true;
                 }
 
-                string[] currentPermissions = GetPermissions(pri.Claims);
-                return currentPermissions.Any(p => p.Equals(permission, StringComparison.InvariantCultureIgnoreCase));
-            }
-            return false;
-        }
-
-        public static bool HasAllPermissions(this ClaimsPrincipal pri, string[] permissions)
-        {
-            if (pri != null && pri.Identity != null && pri.Identity.IsAuthenticated)
-            {
-                if (pri.HasRole(Constants.Roles.Admin))
-                {
-                    return true;
-                }
-
-                string[] currentPermissions = GetPermissions(pri.Claims);
+                string[] currentPermissions = GetPermissions(pri.Claims, permissionClaimType);
                 return HasAll(currentPermissions, permissions);
             }
             return false;
         }
 
-        public static bool HasAnyPermissions(this ClaimsPrincipal pri, string[] permissions)
+        public static bool HasAnyPermissions(this ClaimsPrincipal pri, string[] permissions,
+            string adminRoleName = PermissionAuthorizationOptions.DefaultAdministratorRoleName,
+            string permissionClaimType = PermissionAuthorizationOptions.DefaultPermissionClaimType)
         {
             if (pri != null && pri.Identity != null && pri.Identity.IsAuthenticated)
             {
-                if (pri.HasRole(Constants.Roles.Admin))
+                if (!string.IsNullOrWhiteSpace(adminRoleName) && pri.HasRole(adminRoleName))
                 {
                     return true;
                 }
 
-                string[] currentPermissions = GetPermissions(pri.Claims);
+                string[] currentPermissions = GetPermissions(pri.Claims, permissionClaimType);
                 return HasAny(currentPermissions, permissions);
             }
             return false;
         }
 
-
-        private static string[] GetPermissions(IEnumerable<Claim> claims)
+        private static string[] GetPermissions(IEnumerable<Claim> claims,
+            string permissionClaimType = PermissionAuthorizationOptions.DefaultPermissionClaimType)
         {
-            return GetArray(claims, Constants.ClaimTypes.Permissions);
+            return GetArray(claims, permissionClaimType);
         }
 
         private static string[] GetRoles(IEnumerable<Claim> claims)
