@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TulipInfo.Net.AspNetCore
 {
@@ -21,9 +17,16 @@ namespace TulipInfo.Net.AspNetCore
         {
             get
             {
-                string strPermission = Policy.Substring(POLICY_PREFIX.Length);
-                string[] permissions = strPermission.Split(POLICY_SEPARATOR, StringSplitOptions.RemoveEmptyEntries);
-                return permissions;
+                if(Policy!=null)
+                {
+                    string strPermission = Policy.Substring(POLICY_PREFIX.Length);
+                    string[] permissions = strPermission.Split(POLICY_SEPARATOR, StringSplitOptions.RemoveEmptyEntries);
+                    return permissions;
+                }
+                else
+                {
+                    return new string[0];
+                }
             }
             set
             {

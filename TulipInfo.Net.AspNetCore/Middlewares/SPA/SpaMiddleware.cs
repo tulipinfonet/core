@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace TulipInfo.Net.AspNetCore
 {

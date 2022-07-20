@@ -1,30 +1,27 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TulipInfo.Net.AspNetCore
 {
     public class PermissionPolicyProvider : IAuthorizationPolicyProvider
     {
-        //we use Jwt Bear in this project
-        const string AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme;
+        const string DefaultAuthenticationScheme = "Bearer";
 
         private DefaultAuthorizationPolicyProvider BackupPolicyProvider { get; }
-        public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
+        private IAuthenticationSchemeProvider SchemeProvider { get; }
+        public PermissionPolicyProvider(IAuthenticationSchemeProvider schemeProvider, IOptions<AuthorizationOptions> options)
         {
             // ASP.NET Core only uses one authorization policy provider, so if the custom implementation
             // doesn't handle all policies it should fall back to an alternate provider.
             BackupPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
+            SchemeProvider= schemeProvider;
         }
 
-        public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
+        public async Task<AuthorizationPolicy> GetDefaultPolicyAsync()
         {
-            return Task.FromResult(new AuthorizationPolicyBuilder(AuthenticationScheme).RequireAuthenticatedUser().Build());
+            string defaultScheme = await GetDefaultAuthenticationScheme();
+            return new AuthorizationPolicyBuilder(defaultScheme).RequireAuthenticatedUser().Build();
         }
 
         public Task<AuthorizationPolicy?> GetFallbackPolicyAsync()
@@ -32,7 +29,7 @@ namespace TulipInfo.Net.AspNetCore
             return Task.FromResult<AuthorizationPolicy?>(null);
         }
 
-        public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
+        public async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
             if (policyName.StartsWith(PermissionAuthorizeAttribute.POLICY_PREFIX, StringComparison.OrdinalIgnoreCase))
             {
@@ -46,12 +43,26 @@ namespace TulipInfo.Net.AspNetCore
                     permissions[i - 1] = policyValues[i];
                 }
 
-                var policy = new AuthorizationPolicyBuilder(AuthenticationScheme);
+                string defaultScheme = await GetDefaultAuthenticationScheme();
+                var policy = new AuthorizationPolicyBuilder(defaultScheme);
                 policy.AddRequirements(new PermissionRequirement(permissions,checkAll));
-                return Task.FromResult<AuthorizationPolicy?>(policy.Build());
+                return policy.Build();
             }
 
-            return BackupPolicyProvider.GetPolicyAsync(policyName);
+            return await BackupPolicyProvider.GetPolicyAsync(policyName);
+        }
+
+        private async Task<string> GetDefaultAuthenticationScheme()
+        {
+            var scheme = await SchemeProvider.GetDefaultAuthenticateSchemeAsync();
+            if (scheme != null)
+            {
+                return scheme.Name;
+            }
+            else
+            {
+                return DefaultAuthenticationScheme;
+            }
         }
     }
 }
