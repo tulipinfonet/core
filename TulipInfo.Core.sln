@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Sql", "TulipI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.MySql", "TulipInfo.Net.MySql\TulipInfo.Net.MySql.csproj", "{102F5981-FB53-4508-8EB7-DE563E9D5E60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipInfo.Net.Drawing.Tests", "TulipInfo.Net.Drawing.Tests\TulipInfo.Net.Drawing.Tests.csproj", "{413D1A67-A5D7-4923-80B1-95596795D290}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{102F5981-FB53-4508-8EB7-DE563E9D5E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{102F5981-FB53-4508-8EB7-DE563E9D5E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{102F5981-FB53-4508-8EB7-DE563E9D5E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413D1A67-A5D7-4923-80B1-95596795D290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413D1A67-A5D7-4923-80B1-95596795D290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413D1A67-A5D7-4923-80B1-95596795D290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413D1A67-A5D7-4923-80B1-95596795D290}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{18FB0930-375B-4C5F-A6D0-51C16E954D6E} = {42AB1BAA-647C-43AF-B1BE-51F259D37FDD}
 		{7F0EE0C5-E715-4E01-A7BA-EA82C05BAF73} = {42AB1BAA-647C-43AF-B1BE-51F259D37FDD}
+		{413D1A67-A5D7-4923-80B1-95596795D290} = {42AB1BAA-647C-43AF-B1BE-51F259D37FDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F0B41CD-2C3D-4098-99B6-ED9EEBB468B9}
