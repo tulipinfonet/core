@@ -18,33 +18,11 @@ namespace TulipInfo.Net
 
             if (formatData != null)
             {
-                subject = GetFormattedTemplate(subject, formatData, useHtml);
-                body = GetFormattedTemplate(body, formatData, useHtml);
+                subject = StringTemplate.Format(subject, formatData, useHtml);
+                body = StringTemplate.Format(body, formatData, useHtml);
             }
 
             return (subject, body);
-        }
-
-        public static string GetFormattedTemplate(string template, object data, bool useHtml = true)
-        {
-            Type type = data.GetType();
-            PropertyInfo[] properties = type.GetProperties();
-            string content = template;
-            foreach (var prop in properties)
-            {
-                object? propValue = prop.GetValue(data, null);
-                if (propValue != null)
-                {
-                    string fieldValue = propValue.ToString() ?? "";
-                    if (useHtml)
-                    {
-                        fieldValue = HtmlEncoder.Default.Encode(fieldValue);
-                    }
-                    content = content.Replace("$" + prop.Name + "$", fieldValue);
-                }
-            }
-
-            return content;
         }
     }
 }

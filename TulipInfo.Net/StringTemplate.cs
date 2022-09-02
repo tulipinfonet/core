@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace TulipInfo.Net
 {
     public static class StringTemplate
     {
-        public static string Format(string input,object data)
+        public static string Format(string input,object data, bool htmlEncoding = false)
         {
-            return Format(input, "${", "}", data);
+            return Format(input, "${", "}", data,htmlEncoding);
         }
 
-        public static string Format(string input, string searchStart, string searchEnd, object data)
+        public static string Format(string input, string searchStart, string searchEnd, object data,bool htmlEncoding=false)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -26,6 +23,9 @@ namespace TulipInfo.Net
             string end = searchEnd.Replace("$", @"\$").Replace("^", @"\^");
             Regex rg = new Regex("(?<=(" + start + "))[.\\s\\S]*?(?=(" + end + "))", RegexOptions.Multiline | RegexOptions.Singleline| RegexOptions.IgnoreCase);
             var matchedValues = rg.Matches(input).Select(m => m.Value).Distinct();
+
+            IDictionary<string, object?> dataDic = Reflector.ConvertToDictionary(data);
+
             foreach (string searchValue in matchedValues)
             {
                 string replacedValue = "";
@@ -44,12 +44,19 @@ namespace TulipInfo.Net
                     }
                 }
 
-                object propValue = Reflector.GetPropertyValue(data, propName);
+                var kv = dataDic!.FirstOrDefault(d => d.Key.Equals(propName, StringComparison.OrdinalIgnoreCase));
+                object? propValue = kv.Value;
+
                 if (propValue != null)
                 {
                     if (string.IsNullOrWhiteSpace(format))
                     {
-                        replacedValue = propValue.ToString();
+                        replacedValue = propValue.ToString()!;
+                    }
+
+                    if (format == "html")
+                    {
+                        replacedValue = HtmlEncoder.Default.Encode(propValue.ToString()!);
                     }
                     else
                     {
@@ -88,7 +95,12 @@ namespace TulipInfo.Net
                         else
                         {
                             //not support format currently
-                            replacedValue = propValue.ToString();
+                            replacedValue = propValue.ToString()!;
+                        }
+
+                        if (htmlEncoding)
+                        {
+                            replacedValue = HtmlEncoder.Default.Encode(replacedValue);
                         }
                     }
                 }

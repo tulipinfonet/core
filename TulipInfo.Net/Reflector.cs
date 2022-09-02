@@ -64,5 +64,35 @@ namespace TulipInfo.Net
         {
             return t.IsValueType || t.IsEnum || t.Equals(typeof(string));
         }
+
+        public static IDictionary<string, object?> ConvertToDictionary(object obj)
+        {
+            IDictionary<string, object?> result = new Dictionary<string, object?>();
+            if (obj != null)
+            {
+                if (obj is IDictionary<string, object?> dictionary)
+                {
+                    return dictionary;
+                }
+                else if (obj is IDictionary)
+                {
+                    foreach (var key in ((IDictionary)obj).Keys)
+                    {
+                        result.Add(key.ToString()!, ((IDictionary)obj)[key]);
+                    }
+                    return result;
+                }
+                else
+                {
+                    var properties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty);
+                    foreach (var property in properties)
+                    {
+                        result.Add(property.Name, property.GetValue(obj, null));
+                    }
+                    return result;
+                }
+            }
+            return result;
+        }
     }
 }
