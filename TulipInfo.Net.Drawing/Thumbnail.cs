@@ -5,7 +5,7 @@ namespace TulipInfo.Net.Drawing
 {
     public static class Thumbnail
     {
-        public static byte[] GetThumbnailBytes(byte[] imageBytes, int width, int height)
+        public static byte[] GetBytes(byte[] imageBytes, int width, int height)
         {
             SKImage srcImage= SKImage.FromEncodedData(imageBytes);
             SKRect srcRect = new SKRect(0, 0, srcImage.Width, srcImage.Height);

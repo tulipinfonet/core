@@ -9,7 +9,7 @@ namespace TulipInfo.Net.Drawing.Tests
         public void TestMethod1()
         {
             string randomString = Captcha.RandomString(6);
-            var imageData = Captcha.Generate(randomString);
+            var imageData = Captcha.GetBytes(randomString);
             //string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp");
             //if(!Directory.Exists(folder))
             //{

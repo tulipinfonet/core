@@ -15,7 +15,7 @@ namespace TulipInfo.Net.Drawing
         static readonly string[] Fonts = { "sans-serif","Arial", "Verdana", "Times New Roman" };
         static readonly SKFontStyle[] FontStyles = { SKFontStyle.Normal,SKFontStyle.Bold, SKFontStyle.BoldItalic };
 
-        public static byte[] Generate(string code)
+        public static byte[] GetBytes(string code)
         {
             int imageWidth = CHAR_WIDTH * code.Length+20;
             using var surface = SKSurface.Create(new SKImageInfo(imageWidth,IMAGE_HEIGHT));
