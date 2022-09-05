@@ -19,4 +19,10 @@
     <ProjectReference Include="..\TulipInfo.Net.Drawing\TulipInfo.Net.Drawing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Image\image1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
