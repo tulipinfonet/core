@@ -12,7 +12,9 @@ namespace TulipInfo.Net
         Failure = 3,
         AuthorityFailure = 4,
         ValidationError = 5,
-        NotFound = 6
+        NotFound = 6,
+        NotAllowed=7,
+        InvalidRequest=8
     }
 
     public class BusinessResultEmptyData
@@ -27,20 +29,23 @@ namespace TulipInfo.Net
 
         }
 
-        public BusinessFieldError(string fieldId, string message)
+        public BusinessFieldError(string name, string message) : this(name, "", message)
         {
-            this.FieldId = fieldId;
+        }
+
+        public BusinessFieldError(string name, string code, string message)
+        {
+            this.Name = name;
+            this.Code = code;
             this.Message = message;
         }
 
-        public string FieldId { get; set; }
-        public string FieldValue { get; set; }
-
-        public string Code { get; set; }
-        public string Message { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
     }
 
-    public class BusinessResult: BusinessResult<BusinessResultEmptyData>
+    public class BusinessResult : BusinessResult<BusinessResultEmptyData>
     {
         public BusinessResult() : base()
         {
@@ -56,12 +61,12 @@ namespace TulipInfo.Net
         }
 
         public BusinessResult(BusinessResultStatus status, IEnumerable<BusinessFieldError> errors)
-            : base(status,  errors)
+            : base(status, errors)
         {
         }
 
         public BusinessResult(BusinessResultStatus status, string message, IEnumerable<BusinessFieldError> errors)
-            : base(status, message,errors)
+            : base(status, message, errors)
         {
         }
 
@@ -84,15 +89,15 @@ namespace TulipInfo.Net
 
     public class BusinessResult<T> : IBusinessResult
     {
-        public BusinessResult() : this(BusinessResultStatus.Unknown, "", "", null, default(T))
+        public BusinessResult() : this(BusinessResultStatus.Unknown, "", "", Enumerable.Empty<BusinessFieldError>(), default(T))
         {
         }
 
-        public BusinessResult(BusinessResultStatus status) : this(status, "", "", null, default(T))
+        public BusinessResult(BusinessResultStatus status) : this(status, "", "", Enumerable.Empty<BusinessFieldError>(), default(T))
         {
         }
 
-        public BusinessResult(T data) : this(BusinessResultStatus.Success, "", "", null, data)
+        public BusinessResult(T data) : this(BusinessResultStatus.Success, "", "", Enumerable.Empty<BusinessFieldError>(), data)
         {
         }
 
@@ -106,30 +111,40 @@ namespace TulipInfo.Net
         {
         }
 
-        public BusinessResult(BusinessResultStatus status, string message) 
-            : this(status, "", message, null, default(T))
+        public BusinessResult(BusinessResultStatus status, string message)
+            : this(status, "", message, Enumerable.Empty<BusinessFieldError>(), default(T))
         {
         }
 
-        public BusinessResult(BusinessResultStatus status, string message, IEnumerable<BusinessFieldError> errors) 
+        public BusinessResult(BusinessResultStatus status, string message, IEnumerable<BusinessFieldError> errors)
             : this(status, "", message, errors, default(T))
         {
         }
 
-        public BusinessResult(BusinessResultStatus status, string code, string message) : this(status, code, message, null, default(T))
+        public BusinessResult(BusinessResultStatus status, string code, string message) : this(status, code, message, Enumerable.Empty<BusinessFieldError>(), default(T))
         {
         }
 
         public BusinessResult(BusinessResultStatus status, string code, string message, IEnumerable<BusinessFieldError> errors)
-            : this(status, code, message, null, default(T))
+            : this(status, code, message, Enumerable.Empty<BusinessFieldError>(), default(T))
         {
         }
 
-        public BusinessResult(BusinessResultStatus status, string code, string message, IEnumerable<BusinessFieldError> errors, T data)
+        public BusinessResult(IBusinessResult br)
+            : this(br.Status, br.Code, br.Message, br.FieldErrors, default(T))
+        {
+        }
+
+        public BusinessResult(BusinessResult<T> br)
+            : this(br.Status, br.Code, br.Message, br.FieldErrors, br.Data)
+        {
+        }
+
+        public BusinessResult(BusinessResultStatus status, string code, string message, IEnumerable<BusinessFieldError> errors, T? data)
         {
             this.Status = status;
-            this.Code = code??string.Empty;
-            this.Message = message??string.Empty;
+            this.Code = code ?? string.Empty;
+            this.Message = message ?? string.Empty;
             this.FieldErrors = errors == null ? new BusinessFieldError[0] : errors;
             this.Data = data;
         }
@@ -142,9 +157,9 @@ namespace TulipInfo.Net
 
         public IEnumerable<BusinessFieldError> FieldErrors { get; private set; }
 
-        public T Data { get; protected set; }
+        public T? Data { get; protected set; }
 
-        object IBusinessResult.Data => this.Data;
+        object? IBusinessResult.Data => this.Data;
     }
 
     public interface IBusinessResult
@@ -157,6 +172,6 @@ namespace TulipInfo.Net
 
         IEnumerable<BusinessFieldError> FieldErrors { get; }
 
-        object Data { get; }
+        object? Data { get; }
     }
 }
