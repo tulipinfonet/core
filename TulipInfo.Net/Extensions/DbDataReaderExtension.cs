@@ -31,6 +31,27 @@ namespace TulipInfo.Net
             return result;
         }
 
+        public static Guid? GetSafeGuid2(this DbDataReader sdr, string fieldName)
+        {
+            if (sdr[fieldName] != DBNull.Value)
+            {
+                try
+                {
+                    Guid result = Guid.Empty;
+                    if(Guid.TryParse(sdr[fieldName].ToString(), out result))
+                    {
+                        return result;
+                    }
+                }
+                catch
+                {
+                    //ignore
+                }
+            }
+            return null;
+
+        }
+
         public static DateTime GetSafeDateTime(this DbDataReader sdr, string fieldName)
         {
             if (sdr[fieldName] != DBNull.Value)
