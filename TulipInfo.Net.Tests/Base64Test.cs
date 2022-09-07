@@ -4,7 +4,7 @@ using System;
 namespace TulipInfo.Net.Tests
 {
     [TestClass]
-    public class Base64ExtensionTest
+    public class Base64Test
     {
         [TestMethod]
         public void Test()
