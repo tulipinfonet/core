@@ -82,7 +82,9 @@ namespace TulipInfo.Net
             : base(status, code, message)
         {
         }
-
+        public BusinessResult(IBusinessResult br) : this(br.Status, br.Code, br.Message, br.FieldErrors)
+        {
+        }
 
         public static readonly BusinessResult Success = new BusinessResult(BusinessResultStatus.Success);
     }
