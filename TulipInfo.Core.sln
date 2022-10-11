@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.ApplicationLo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.EFCore", "TulipInfo.Net.EFCore\TulipInfo.Net.EFCore.csproj", "{B0535B38-B298-4FEC-B6C3-DDDFCE5C37AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.AspNetCore", "TulipInfo.Net.AspNetCore\TulipInfo.Net.AspNetCore.csproj", "{4AA1F6E0-72D1-4A16-8AE9-57CC184A8F34}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.EFCore.SqlServer", "TulipInfo.Net.EFCore.SqlServer\TulipInfo.Net.EFCore.SqlServer.csproj", "{3D33112E-0D9A-4957-A52A-E1BE1D372B80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{42AB1BAA-647C-43AF-B1BE-51F259D37FDD}"
@@ -29,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Sql", "TulipI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.MySql", "TulipInfo.Net.MySql\TulipInfo.Net.MySql.csproj", "{102F5981-FB53-4508-8EB7-DE563E9D5E60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipInfo.Net.Drawing.Tests", "TulipInfo.Net.Drawing.Tests\TulipInfo.Net.Drawing.Tests.csproj", "{413D1A67-A5D7-4923-80B1-95596795D290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Drawing.Tests", "TulipInfo.Net.Drawing.Tests\TulipInfo.Net.Drawing.Tests.csproj", "{413D1A67-A5D7-4923-80B1-95596795D290}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +55,6 @@ Global
 		{B0535B38-B298-4FEC-B6C3-DDDFCE5C37AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0535B38-B298-4FEC-B6C3-DDDFCE5C37AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0535B38-B298-4FEC-B6C3-DDDFCE5C37AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4AA1F6E0-72D1-4A16-8AE9-57CC184A8F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AA1F6E0-72D1-4A16-8AE9-57CC184A8F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AA1F6E0-72D1-4A16-8AE9-57CC184A8F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AA1F6E0-72D1-4A16-8AE9-57CC184A8F34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3D33112E-0D9A-4957-A52A-E1BE1D372B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3D33112E-0D9A-4957-A52A-E1BE1D372B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D33112E-0D9A-4957-A52A-E1BE1D372B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
