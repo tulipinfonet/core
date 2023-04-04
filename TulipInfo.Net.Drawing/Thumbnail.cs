@@ -5,7 +5,7 @@ namespace TulipInfo.Net.Drawing
 {
     public static class Thumbnail
     {
-        public static byte[] GetBytes(byte[] imageBytes, int width, int height)
+        public static byte[] GetBytes(byte[] imageBytes, int width, int height,int quality=80)
         {
             SKImage srcImage= SKImage.FromEncodedData(imageBytes);
             SKRect srcRect = new SKRect(0, 0, srcImage.Width, srcImage.Height);
@@ -56,7 +56,7 @@ namespace TulipInfo.Net.Drawing
             SKCanvas canvas = surface.Canvas;
             canvas.DrawImage(srcImage, srcRect, targetRect);
 
-            var data = surface.Snapshot().Encode(SKEncodedImageFormat.Jpeg, 80);
+            var data = surface.Snapshot().Encode(SKEncodedImageFormat.Jpeg, quality);
             return  data.ToArray();
         }
     }
