@@ -193,7 +193,7 @@ namespace TulipInfo.Net.Sql
         public static SqlDataReader ExecuteReader(string connectionString, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
             SqlConnection conn = CreateConnection(connectionString);
-            return ExecuteReader(conn, null, commandText, CommandType.Text, dbParam, commandTimeout);
+            return ExecuteReader(conn, null, commandText, CommandType.Text, dbParam, commandTimeout,null, CommandBehavior.Default| CommandBehavior.CloseConnection);
         }
         public static SqlDataReader ExecuteReader(SqlTransaction tran, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
@@ -209,7 +209,7 @@ namespace TulipInfo.Net.Sql
         public static SqlDataReader ExecuteReaderProc(string connectionString, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
             SqlConnection conn = CreateConnection(connectionString);
-            return ExecuteReader(conn, null, commandText, CommandType.StoredProcedure, dbParam, commandTimeout);
+            return ExecuteReader(conn, null, commandText, CommandType.StoredProcedure, dbParam, commandTimeout,null, CommandBehavior.Default | CommandBehavior.CloseConnection);
         }
         public static SqlDataReader ExecuteReaderProc(SqlTransaction tran, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
@@ -224,7 +224,7 @@ namespace TulipInfo.Net.Sql
 
         public static SqlDataReader ExecuteReader(SqlConnection conn, SqlTransaction? tran,
             string commandText, CommandType commandType, SqlParameter[]? dbParam = null,
-            int commandTimeout = 0, ILogger? logger = null)
+            int commandTimeout = 0, ILogger? logger = null, CommandBehavior behavior= CommandBehavior.Default)
         {
             SqlCommand cmd = PrepareCommand(conn, tran, commandText, commandType, dbParam, commandTimeout, logger);
             if (conn.State != ConnectionState.Open)
@@ -235,7 +235,7 @@ namespace TulipInfo.Net.Sql
             {
                 logger.LogDebug("ExecuteReader");
             }
-            return cmd.ExecuteReader();
+            return cmd.ExecuteReader(behavior);
         }
         #endregion
 
@@ -243,7 +243,7 @@ namespace TulipInfo.Net.Sql
         public static Task<SqlDataReader> ExecuteReaderAsync(string connectionString, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
             SqlConnection conn = CreateConnection(connectionString);
-            return ExecuteReaderAsync(conn, null, commandText, CommandType.Text, dbParam, commandTimeout);
+            return ExecuteReaderAsync(conn, null, commandText, CommandType.Text, dbParam, commandTimeout,null, CommandBehavior.Default | CommandBehavior.CloseConnection);
         }
         public static Task<SqlDataReader> ExecuteReaderAsync(SqlTransaction tran, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
@@ -258,7 +258,7 @@ namespace TulipInfo.Net.Sql
         public static Task<SqlDataReader> ExecuteReaderProcAsync(string connectionString, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
             SqlConnection conn = CreateConnection(connectionString);
-            return ExecuteReaderAsync(conn, null, commandText, CommandType.StoredProcedure, dbParam, commandTimeout);
+            return ExecuteReaderAsync(conn, null, commandText, CommandType.StoredProcedure, dbParam, commandTimeout, null, CommandBehavior.Default | CommandBehavior.CloseConnection);
         }
         public static Task<SqlDataReader> ExecuteReaderProcAsync(SqlTransaction tran, string commandText, SqlParameter[]? dbParam = null, int commandTimeout = 0)
         {
@@ -274,7 +274,7 @@ namespace TulipInfo.Net.Sql
         public static async Task<SqlDataReader> ExecuteReaderAsync(SqlConnection conn, 
             SqlTransaction? tran, string commandText, CommandType commandType, 
             SqlParameter[]? dbParam = null, 
-            int commandTimeout = 0, ILogger? logger = null)
+            int commandTimeout = 0, ILogger? logger = null, CommandBehavior behavior= CommandBehavior.Default)
         {
             SqlCommand cmd = PrepareCommand(conn, tran, commandText, commandType, dbParam, commandTimeout, logger);
             if (conn.State != ConnectionState.Open)
@@ -286,7 +286,7 @@ namespace TulipInfo.Net.Sql
             {
                 logger.LogDebug("ExecuteReaderAsync");
             }
-            return await cmd.ExecuteReaderAsync();
+            return await cmd.ExecuteReaderAsync(behavior);
         }
         #endregion
 
