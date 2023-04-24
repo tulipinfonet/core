@@ -69,7 +69,7 @@ namespace TulipInfo.Net.Drawing.Tests
         {
             string imageFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image/image2.png");
             byte[] imageBytes = File.ReadAllBytes(imageFile);
-            byte[] thumBytes = Thumbnail.GetBytes(imageBytes, 200, 200);
+            byte[] thumBytes = Thumbnail.GetBytes(imageBytes, 400, 400);
 
             string newFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"image/image2_{Guid.NewGuid()}.png");
             using (FileStream file = new FileStream(newFile, FileMode.Create, FileAccess.Write))

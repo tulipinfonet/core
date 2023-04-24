@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using SkiaSharp;
 
 namespace TulipInfo.Net.Drawing
@@ -20,12 +21,29 @@ namespace TulipInfo.Net.Drawing
             int width = options.Width;
             int height = options.Height;
 
-            SKImage srcImage = SKImage.FromEncodedData(imageBytes);
-            SKRect srcRect = new SKRect(0, 0, srcImage.Width, srcImage.Height);
-            SKRect targetRect = new SKRect(0, 0, width, height);
+            SKBitmap srcImage = SKBitmap.Decode(imageBytes);
 
-            if (srcImage.Width != width || srcImage.Height != height)
+            if (srcImage.Width == width && srcImage.Height == height)
             {
+                return imageBytes;
+            }
+
+            float srcRate = (float)srcImage.Width / (float)srcImage.Height;
+            float targetRate = (float)width / (float)height;
+            if (srcRate == targetRate)
+            {
+                //resize
+                return Resize(srcImage, options);
+            }
+            else
+            {
+                //adjust rate and draw again
+                int tempWidth = width;
+                int tempHeight = height;
+
+                SKRect srcRect = new SKRect(0, 0, srcImage.Width, srcImage.Height);
+                SKRect targetRect = new SKRect(0, 0, width, height);
+
                 if (srcImage.Width <= width && srcImage.Height <= height)
                 {
                     //keep center
@@ -39,45 +57,60 @@ namespace TulipInfo.Net.Drawing
                 }
                 else
                 {
-                    float srcRate = (float)srcImage.Width / (float)srcImage.Height;
-                    float targetRate = (float)width / (float)height;
-                    if (srcRate != targetRate)
+                    if (srcRate < targetRate)
                     {
-                        if (srcRate < targetRate)
-                        {
-                            //target is wider than source
-                            float zoom = (float)srcImage.Height / (float)height;
-                            float newSrcWidth = (float)srcImage.Width / zoom;
-                            float centerTargetX = (float)width / 2;
+                        //target is wider than source
+                        //leave empty in both left and right
+                        tempWidth= Convert.ToInt32(srcImage.Height*targetRate);
+                        tempHeight = srcImage.Height;
+                        float centerSrcX = (float)srcImage.Width / 2;
+                        float centerTargetX = (float)tempWidth / 2;
 
-
-                            targetRect.Left = centerTargetX - (newSrcWidth / 2);
-                            targetRect.Top = 0;
-                            targetRect.Right = centerTargetX + (newSrcWidth / 2); ;
-                            targetRect.Bottom = height;
-                        }
-                        else if (srcRate > targetRate)
-                        {
-                            //target is wider than thumbnail
-                            float zoom = (float)srcImage.Width / (float)width;
-                            float newSrcHeight = (float)srcImage.Height / zoom;
-                            float centerTargetY = (float)height / 2;
-
-                            targetRect.Left = 0;
-                            targetRect.Top = centerTargetY - (newSrcHeight / 2);
-                            targetRect.Right = width;
-                            targetRect.Bottom = centerTargetY + (newSrcHeight / 2);
-                        }
-
+                        targetRect.Left = centerTargetX - centerSrcX;
+                        targetRect.Top = 0;
+                        targetRect.Right = centerTargetX + centerSrcX;
+                        targetRect.Bottom = tempHeight;
                     }
+                    else if (srcRate > targetRate)
+                    {
+                        //source is wider than target
+                        //leave empty in both top and bottom
+                        tempWidth = srcImage.Width;
+                        tempHeight = Convert.ToInt32(srcImage.Width / targetRate);
 
+                        float centerSourceY = (float)srcImage.Height / 2;
+                        float centerTargetY = (float)tempHeight / 2;
+
+                        targetRect.Left = 0;
+                        targetRect.Top = centerTargetY - centerSourceY;
+                        targetRect.Right = tempWidth;
+                        targetRect.Bottom = centerTargetY + centerSourceY;
+                    }
                 }
-            }
-            using var surface = SKSurface.Create(new SKImageInfo(width, height));
-            SKCanvas canvas = surface.Canvas;
-            canvas.DrawImage(srcImage, srcRect, targetRect);
 
-            var data = surface.Snapshot().Encode((SKEncodedImageFormat)((byte)options.ImageFormat), options.Quantity);
+                using var surface = SKSurface.Create(new SKImageInfo(tempWidth, tempHeight, SKImageInfo.PlatformColorType,  SKAlphaType.Premul));
+                SKCanvas canvas = surface.Canvas;
+                canvas.Clear(SKColors.Transparent);
+                canvas.DrawBitmap(srcImage, srcRect, targetRect, new SKPaint()
+                {
+                    IsAntialias = true
+                });
+
+                var data =  surface.Snapshot().Encode(SKEncodedImageFormat.Png, options.Quantity);
+                
+                //resize
+                SKBitmap thumbImage = SKBitmap.Decode(data.ToArray());
+                return Resize(thumbImage, options);
+            }
+        }
+
+        private static byte[] Resize(SKBitmap srcImage, ThumbnailIOptions options)
+        {
+            int width = options.Width;
+            int height = options.Height;
+            var resizedImageInfo = new SKImageInfo(width, height, SKImageInfo.PlatformColorType, srcImage.AlphaType);
+            var resizedBitMap = srcImage.Resize(resizedImageInfo, SKFilterQuality.High);
+            var data = resizedBitMap.Encode((SKEncodedImageFormat)((byte)options.ImageFormat), options.Quantity);
             return data.ToArray();
         }
 
