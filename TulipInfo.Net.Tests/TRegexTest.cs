@@ -83,5 +83,42 @@ namespace TulipInfo.Net.Tests
             Assert.AreEqual(false, TRegex.IsMatch("12345", TRegex.StrongPasswordPatternWithOutSymbol));
             Assert.AreEqual(false, TRegex.IsMatch("$%$@#$*(&)<>:*$%$%", TRegex.StrongPasswordPatternWithOutSymbol));
         }
+
+        [TestMethod]
+        public void Test_Url_Scheme_Optional()
+        {
+            Assert.AreEqual(true, TRegex.IsMatch("http://www.bing.com", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("http://bing.com", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://www.bing.com", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://bing.com", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://bing.com?q=abc", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("bing.com", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("www.bing.com", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("www.bing.com/search", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("www.bing.com/search?q=abc", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("bing", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("bing/search?q=abc", TRegex.UrlWithSchemeOptionalPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("ahttps://bing.com", TRegex.UrlWithSchemeOptionalPattern));
+        }
+
+        [TestMethod]
+        public void Test_Url_Scheme_Required()
+        {
+            Assert.AreEqual(true, TRegex.IsMatch("http://www.bing.com", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("http://bing.com", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://www.bing.com", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://bing.com", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://bing.com?q=abc", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://bing.com/serach", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(true, TRegex.IsMatch("https://bing.com/search?q=abc", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("bing.com", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("www.bing.com", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("www.bing.com/search", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("www.bing.com/search?q=abc", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("bing", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("bing/search?q=abc", TRegex.UrlWithSchemeRequiredPattern));
+            Assert.AreEqual(false, TRegex.IsMatch("ahttps://bing.com", TRegex.UrlWithSchemeRequiredPattern));
+        }
+
     }
 }

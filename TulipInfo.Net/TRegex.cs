@@ -27,7 +27,9 @@ namespace TulipInfo.Net
         //The password must contain one or more numeric values
         /// </summary>
         public const string StrongPasswordPatternWithOutSymbol = @"(?=^.{8,}$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$";
-
+        private const string UrlComponentPattern= "(([0-9a-z_!~*'().&=+$%-]+:)?[0-9a-z_!~*'().&=+$%-]+@)?(([0-9]{1,3}\\.){3}[0-9]{1,3}|([0-9a-z_!~*'()-]+\\.)*([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\.[a-z]{2,6})(:[0-9]{1,4})?((\\/?)|(\\/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+\\/?)";
+        public const string UrlWithSchemeOptionalPattern = "^((http[s]?):\\/\\/)?"+UrlComponentPattern;
+        public const string UrlWithSchemeRequiredPattern = "^((http[s]?):\\/\\/){1}" + UrlComponentPattern;
         public static bool IsChineseMobile(string input, bool simpleCheck = false)
         {
             if (simpleCheck)
