@@ -28,8 +28,21 @@ namespace TulipInfo.Net
         /// </summary>
         public const string StrongPasswordPatternWithOutSymbol = @"(?=^.{8,}$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$";
         private const string UrlComponentPattern= "(([0-9a-z_!~*'().&=+$%-]+:)?[0-9a-z_!~*'().&=+$%-]+@)?(([0-9]{1,3}\\.){3}[0-9]{1,3}|([0-9a-z_!~*'()-]+\\.)*([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\.[a-z]{2,6})(:[0-9]{1,4})?((\\/?)|(\\/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+\\/?)";
+        [Obsolete("Use UrlPattern.FullWithSchemeOptional", true)]
         public const string UrlWithSchemeOptionalPattern = "^((http[s]?):\\/\\/)?"+UrlComponentPattern;
+        [Obsolete("Use UrlPattern.FullWithSchemeRequired",true)]
         public const string UrlWithSchemeRequiredPattern = "^((http[s]?):\\/\\/){1}" + UrlComponentPattern;
+        public static class UrlPattern
+        {
+            public const string InternalDomain = "[a-zA-Z0-9\\-]{1,}(\\.[a-zA-Z0-9\\-]{1,})?";
+            public const string PublicDomain = "[a-zA-Z0-9\\-]{1,}(\\.[a-zA-Z0-9\\-]{1,})?(\\.[a-zA-Z]{2,}){1}";
+            public const string IPV4 = "([0-9]{1,3}\\.){3}[0-9]{1,3}";
+            public const string Port = ":[1-9]{1}[0-9]{0,4}";
+            public const string Path = "([\\/\\?#]{1}[0-9a-z_!~*'().;?:@&=+$,%#-]+){1,}";
+            public const string FullWithSchemeRequired = "^((http[s]?):\\/\\/){1}((" + InternalDomain + ")|(" + PublicDomain + ")|(" + IPV4 + "))(" + Port + ")?(" + Path + ")?$";
+            public const string FullWithSchemeOptional = "^((http[s]?):\\/\\/)?" + "((" + InternalDomain + ")|(" + PublicDomain + ")|(" + IPV4 + "))(" + Port + ")?(" + Path + ")?$";
+        }
+
         public static bool IsChineseMobile(string input, bool simpleCheck = false)
         {
             if (simpleCheck)
