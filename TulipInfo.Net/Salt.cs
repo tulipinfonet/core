@@ -7,14 +7,14 @@ namespace TulipInfo.Net
 {
     public static class Salt
     {
-        public static string Generate(int bitLength = 128)
+        public static string Generate(int bytesLength = 16)
         {
-            return Base64.UrlEncode(GenerateBytes(bitLength));
+            return Base64.UrlEncode(GenerateBytes(bytesLength));
         }
 
-        public static byte[] GenerateBytes(int bitLength = 128)
+        public static byte[] GenerateBytes(int bytesLength = 16)
         {
-            byte[] salt = new byte[bitLength / 8];
+            byte[] salt = new byte[bytesLength];
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(salt);
