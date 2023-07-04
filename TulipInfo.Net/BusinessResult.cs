@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TulipInfo.Net
@@ -151,15 +152,15 @@ namespace TulipInfo.Net
             this.Data = data;
         }
 
-        public Guid Id { get; protected set; } = Guid.NewGuid();
-        public long Time { get; protected set; } = DateTime.UtcNow.Ticks;
-        public BusinessResultStatus Status { get; protected set; } = BusinessResultStatus.Unknown;
-        public string Code { get; protected set; }
-        public string Message { get; protected set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public long Time { get; set; } = DateTime.UtcNow.Ticks;
+        public BusinessResultStatus Status { get; set; } = BusinessResultStatus.Unknown;
+        public string Code { get; set; }
+        public string Message { get; set; }
 
-        public IEnumerable<BusinessFieldError> FieldErrors { get; private set; }
+        public IEnumerable<BusinessFieldError> FieldErrors { get; set; }
 
-        public T? Data { get; protected set; }
+        public T? Data { get; set; }
 
         object? IBusinessResult.Data => this.Data;
     }
