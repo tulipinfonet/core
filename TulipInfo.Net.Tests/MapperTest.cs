@@ -130,6 +130,66 @@ namespace TulipInfo.Net.Tests
         }
 
         [TestMethod]
+        public void TestDictionaryMap()
+        {
+            IDictionary<string, object> source = new Dictionary<string, object>
+            {
+                ["IntValue"] =1,
+                ["IntArray"] = new int[] { 1, 2, 3 },
+                ["IntList"] = new List<int>() { 4, 5, 6 },
+                ["IntDics"] = new Dictionary<string, int>
+                {
+                    ["a"]=1,
+                    ["b"]=2
+                },
+                ["Sub"] = new SubClass() { Name = "n1", Cost = 1.2M },
+                ["SubList"] = new List<SubClass>()
+                {
+                    new SubClass(){ Name="n2",Cost=2.2M },
+                    new SubClass(){ Name="n3",Cost=3.2M }
+                },
+                ["PrimaryKind"] = ClassKind.Primary,
+                ["SecondaryKind"] = ClassKind.Secondary,
+                ["ThirdKind"] = "Third",
+                ["FourthKind"] = 3,
+                ["FifthKind"] = ClassKind.Fifth,
+                ["SixKind"] = ClassKind.Six
+            };
+
+            TargetClass target = Mapper.Map<TargetClass>(source);
+
+            Assert.AreEqual(1, target.IntValue);
+
+            Assert.AreEqual(3, target.IntArray.Length);
+            Assert.AreEqual(3, target.IntArray[2]);
+
+            Assert.AreEqual(3, target.IntList.Count);
+            Assert.AreEqual(6, target.IntList[2]);
+
+            Assert.AreEqual(2, target.IntDics.Count);
+            Assert.AreEqual(1, target.IntDics["a"]);
+            Assert.AreEqual(2, target.IntDics["b"]);
+
+            Assert.IsNotNull(target.Sub);
+            Assert.AreEqual("n1", target.Sub.Name);
+            Assert.AreEqual(1.2M, target.Sub.Cost);
+
+            Assert.IsNotNull(target.SubList);
+            Assert.AreEqual(2, target.SubList.Count);
+            Assert.AreEqual("n2", target.SubList[0].Name);
+            Assert.AreEqual(2.2M, target.SubList[0].Cost);
+            Assert.AreEqual("n3", target.SubList[1].Name);
+            Assert.AreEqual(3.2M, target.SubList[1].Cost);
+
+            Assert.AreEqual(ClassKind.Primary, target.PrimaryKind);
+            Assert.AreEqual(ClassKind.Secondary, target.SecondaryKind);
+            Assert.AreEqual(ClassKind.Third, target.ThirdKind);
+            Assert.AreEqual(ClassKind.Fourth, target.FourthKind);
+            Assert.AreEqual("Fifth", target.FifthKind);
+            Assert.AreEqual(5, target.SixKind);
+        }
+
+        [TestMethod]
         public void TestMap_Guid()
         {
             GuidTestClass source = new GuidTestClass()

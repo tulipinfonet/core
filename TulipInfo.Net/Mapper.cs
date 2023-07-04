@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 
 namespace TulipInfo.Net
@@ -24,6 +25,43 @@ namespace TulipInfo.Net
         public static void Map(object source, object target)
         {
             Map(source, target, source.GetType(), target.GetType());
+        }
+
+        public static TargetType? Map<TargetType>(IDictionary<string,object?> source)
+            where TargetType : class
+        {
+            Type targetType = typeof(TargetType);
+            object? target = Activator.CreateInstance(targetType);
+
+            if (target != null)
+            {
+                Map(source, target);
+                return (TargetType)target;
+            }
+
+            return null;
+        }
+
+        public static void Map(IDictionary<string, object?> source, object? target)
+        {
+            if (source != null && target != null)
+            {
+                Type targetType = target.GetType();
+
+                Dictionary<string, PropertyInfo> tps = targetType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)
+                    .ToDictionary(t => t.Name.ToLower(), t => t);
+
+                foreach (var sKey in source.Keys)
+                {
+                    string key =sKey.ToLower();
+                    if (tps.ContainsKey(key))
+                    {
+                        PropertyInfo tp = tps[key];
+                        object? sourceValue = source[sKey];
+                        MapValue(sourceValue, null, target, tp);
+                    }
+                }
+            }
         }
 
         private static object Map(object source, Type sourceType, Type targetType)
@@ -61,45 +99,9 @@ namespace TulipInfo.Net
                     if (tps.ContainsKey(key))
                     {
                         PropertyInfo tp = tps[key];
-                        object sourcePropValue = sp.GetValue(source, null);
+                        object? sourcePropValue = sp.GetValue(source, null);
 
-                        if (sourcePropValue == null)
-                        {
-                            if (Reflector.IsNullableType(sp.PropertyType))
-                            {
-                                tp.SetValue(target, null, null);
-                            }
-                        }
-                        else
-                        {
-                            if (IsValueType(sp.PropertyType))
-                            {
-                                MapValue(sourcePropValue,sp, target, tp);
-                            }
-                            else if (sp.PropertyType.IsArray)
-                            {
-                                Array arSourcePropValue = sourcePropValue as Array;
-                                MapArray(arSourcePropValue, target, tp);
-                            }
-                            else if (sp.PropertyType.GetInterface("IDictionary") != null)
-                            {
-                                Type keyType = sp.PropertyType.GenericTypeArguments[0];
-                                Type valueType = sp.PropertyType.GenericTypeArguments[1];
-                                IDictionary dicSourcePropValue = sourcePropValue as IDictionary;
-                                MapDictionary(dicSourcePropValue, keyType, valueType, target, tp);
-                            }
-                            else if (sp.PropertyType.GetInterface("IEnumerable") != null)
-                            {
-                                IEnumerable enSourcePropValue = sourcePropValue as IEnumerable;
-                                MapEnumerable(enSourcePropValue, target, tp);
-                            }
-                            else if (sp.PropertyType.IsClass && tp.PropertyType.IsClass)
-                            {
-                                object targetPropValue = Activator.CreateInstance(tp.PropertyType);
-                                Map(sourcePropValue, targetPropValue);
-                                tp.SetValue(target, targetPropValue, null);
-                            }
-                        }
+                        MapValue(sourcePropValue, sp.PropertyType, target, tp);
                     }
                 }
             }
@@ -110,7 +112,54 @@ namespace TulipInfo.Net
             return Reflector.IsValueType(t);
         }
 
-        private static void MapValue(object sourceValue, PropertyInfo sourcePropInfo, object targetObj, PropertyInfo targetPropInfo)
+
+        private static void MapValue(object? sourceValue, Type? sourceValueType, object target, PropertyInfo targetProperty)
+        {
+            if (sourceValue == null)
+            {
+                if (Reflector.IsNullableType(targetProperty.PropertyType))
+                {
+                    targetProperty.SetValue(target, null, null);
+                }
+            }
+            else
+            {
+                if(sourceValueType == null)
+                {
+                    sourceValueType = sourceValue.GetType();
+                }
+                if (IsValueType(sourceValueType))
+                {
+                    MapSimpleValue(sourceValue, sourceValueType, target, targetProperty);
+                }
+                else if (sourceValueType.IsArray)
+                {
+                    Array arSourcePropValue = sourceValue as Array;
+                    MapArray(arSourcePropValue, target, targetProperty);
+                }
+                else if (sourceValueType.GetInterface("IDictionary") != null)
+                {
+                    Type keyType = sourceValueType.GenericTypeArguments[0];
+                    Type valueType = sourceValueType.GenericTypeArguments[1];
+                    IDictionary dicSourcePropValue = sourceValue as IDictionary;
+                    MapDictionary(dicSourcePropValue, keyType, valueType, target, targetProperty);
+                }
+                else if (sourceValueType.GetInterface("IEnumerable") != null)
+                {
+                    IEnumerable enSourcePropValue = sourceValue as IEnumerable;
+                    MapEnumerable(enSourcePropValue, target, targetProperty);
+                }
+                else if (sourceValueType.IsClass && targetProperty.PropertyType.IsClass)
+                {
+                    object targetPropValue = Activator.CreateInstance(targetProperty.PropertyType);
+                    Map(sourceValue, targetPropValue);
+                    targetProperty.SetValue(target, targetPropValue, null);
+                }
+            }
+        }
+
+
+        private static void MapSimpleValue(object sourceValue, Type soureValueType, object targetObj, PropertyInfo targetPropInfo)
         {
             if (targetPropInfo.PropertyType.IsEnum)
             {
@@ -122,7 +171,7 @@ namespace TulipInfo.Net
             }
             else if (IsValueType(targetPropInfo.PropertyType))
             {
-                if (CanSetValueDirectly(sourcePropInfo.PropertyType, targetPropInfo.PropertyType))
+                if (CanSetValueDirectly(soureValueType, targetPropInfo.PropertyType))
                 {
                     targetPropInfo.SetValue(targetObj, sourceValue);
                 }
