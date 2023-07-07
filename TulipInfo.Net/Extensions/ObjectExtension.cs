@@ -304,7 +304,7 @@ namespace TulipInfo.Net
         public static DataType ToDataType<DataType>(this object input)
         {
             Type t = typeof(DataType);
-            object newValue = null;
+            object? newValue = null;
             if (t == typeof(string))
             {
                 newValue = input == null ? null : input.ToString();
@@ -316,6 +316,10 @@ namespace TulipInfo.Net
             else if (t == typeof(bool?))
             {
                 newValue = input.ToNullableBoolean();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(int))
             {
@@ -324,6 +328,10 @@ namespace TulipInfo.Net
             else if (t == typeof(int?))
             {
                 newValue = input.ToNullableInt();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(short))
             {
@@ -332,6 +340,10 @@ namespace TulipInfo.Net
             else if (t == typeof(short?))
             {
                 newValue = input.ToNullableInt16();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(long))
             {
@@ -340,6 +352,10 @@ namespace TulipInfo.Net
             else if (t == typeof(long?))
             {
                 newValue = input.ToNullableInt64();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(float))
             {
@@ -348,6 +364,10 @@ namespace TulipInfo.Net
             else if (t == typeof(float?))
             {
                 newValue = input.ToNullableFloat();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(double))
             {
@@ -356,6 +376,10 @@ namespace TulipInfo.Net
             else if (t == typeof(double?))
             {
                 newValue = input.ToNullableDouble();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(decimal))
             {
@@ -364,6 +388,10 @@ namespace TulipInfo.Net
             else if (t == typeof(decimal?))
             {
                 newValue = input.ToNullableDecimal();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(DateTime))
             {
@@ -372,6 +400,10 @@ namespace TulipInfo.Net
             else if (t == typeof(DateTime?))
             {
                 newValue = input.ToNullableDateTime();
+                if (newValue != null)
+                {
+                    return (DataType)newValue;
+                }
             }
             else if (t == typeof(Guid))
             {
