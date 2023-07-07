@@ -179,7 +179,7 @@ namespace TulipInfo.Net
                 {
                     try
                     {
-                        targetPropInfo.SetValue(targetObj, Convert.ChangeType(sourceValue, targetPropInfo.PropertyType), null);
+                        targetPropInfo.SetValue(targetObj, TConvert.ChangeType(sourceValue, targetPropInfo.PropertyType), null);
                     }
                     catch
                     {

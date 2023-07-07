@@ -33,7 +33,7 @@ namespace TulipInfo.Net
         public static DataType GetPropertyValue<DataType>(object obj, string propertyName)
         {
             object value = GetPropertyValue(obj, propertyName);
-            return value.ToDataType<DataType>();
+            return TConvert.ToDataType<DataType>(value);
         }
 
         public static void SetPropertyValue(object obj, string propertyName, object propertyValue)

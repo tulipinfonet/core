@@ -69,6 +69,12 @@ namespace TulipInfo.Net.Tests
             public Guid NGValue { get; set; }
         }
 
+        public class DecimalTestClass
+        {
+            public decimal Value { get; set; }
+            public decimal? NValue { get; set;}
+        }
+
         [TestMethod]
         public void TestMap()
         {
@@ -190,6 +196,21 @@ namespace TulipInfo.Net.Tests
         }
 
         [TestMethod]
+        public void TestDictionaryMap_ShortToDecimal()
+        {
+            IDictionary<string, object> source = new Dictionary<string, object>
+            {
+                ["Value"] = (short)5,
+                ["NValue"] = (short)6
+            };
+
+            DecimalTestClass target = Mapper.Map<DecimalTestClass>(source);
+
+            Assert.AreEqual(5, target.Value);
+            Assert.AreEqual(6, target.NValue);
+        }
+
+        [TestMethod]
         public void TestMap_Guid()
         {
             GuidTestClass source = new GuidTestClass()
@@ -224,6 +245,5 @@ namespace TulipInfo.Net.Tests
             Assert.AreEqual(source.NGValue, target2.NGValue);
 
         }
-
     }
 }

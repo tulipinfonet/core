@@ -41,7 +41,31 @@ namespace TulipInfo.Net
                 || up == "TRUE"
                 || input == "1";
         }
-        
+
+        public static byte? ToNullableByte(this string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return null;
+
+            byte value = 0;
+            if (byte.TryParse(input, out value))
+                return value;
+            else
+                return null;
+        }
+
+        public static byte ToByte(this string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return 0;
+
+            byte value = 0;
+            if (byte.TryParse(input, out value))
+                return value;
+            else
+                return 0;
+        }
+
         public static int? ToNullableInt(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))

@@ -10,11 +10,12 @@ namespace TulipInfo.Net.Tests
         public void DateToDate2()
         {
             object dt = DateTime.Now;
-            var dt2=dt.ToDataType<DateTime?>();
+
+            var dt2=TConvert.ToDataType<DateTime?>(dt);
             Assert.AreEqual(dt, dt2);
 
             dt = null;
-            dt2 = dt.ToDataType<DateTime?>();
+            dt2 = TConvert.ToDataType<DateTime?>(dt);
             Assert.IsNull(dt2);
         }
     }
