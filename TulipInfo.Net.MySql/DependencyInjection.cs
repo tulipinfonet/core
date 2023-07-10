@@ -9,10 +9,16 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjection
     {
+        public static IServiceCollection AddDefaultOracleClient(this IServiceCollection services,
+                Action<MySqlDatabaseOptions>? optAction = null)
+        {
+            return services.AddOracleClient<OracleClient, MySqlDatabaseOptions>(optAction);
+        }
 
-        public static IServiceCollection AddSqlClient<MySqlClientType>(this IServiceCollection services,
-                Action<DatabaseOptions>? optAction=null)
-                where MySqlClientType :  MySqlClient
+        public static IServiceCollection AddOracleClient<SqlClientType, DatabaseOptionsType>(this IServiceCollection services,
+                Action<DatabaseOptionsType>? optAction = null)
+                where SqlClientType : OracleClient
+                where DatabaseOptionsType : MySqlDatabaseOptions
         {
             if (optAction == null)
             {
@@ -20,8 +26,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                 };
             }
-            services.Configure<DatabaseOptions>(optAction);
-            services.AddSingleton<MySqlClientType>();
+            services.Configure<DatabaseOptionsType>(optAction);
+            services.AddSingleton<SqlClientType>();
 
             return services;
         }
