@@ -737,6 +737,7 @@ namespace TulipInfo.Net.Oracle
             }
 
             cmd.CommandText = commandText;
+            cmd.BindByName = true;
 
             if (logger != null)
             {
