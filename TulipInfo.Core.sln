@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.MySql", "Tuli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Drawing.Tests", "TulipInfo.Net.Drawing.Tests\TulipInfo.Net.Drawing.Tests.csproj", "{413D1A67-A5D7-4923-80B1-95596795D290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipInfo.Net.Oracle", "TulipInfo.Net.Oracle\TulipInfo.Net.Oracle.csproj", "{13CFFD55-55B3-4DAC-8CDD-92D3D440D592}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Oracle", "TulipInfo.Net.Oracle\TulipInfo.Net.Oracle.csproj", "{13CFFD55-55B3-4DAC-8CDD-92D3D440D592}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
