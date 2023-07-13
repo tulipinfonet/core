@@ -39,29 +39,29 @@ namespace TulipInfo.Net.Tests
         public void Test_ToNullableBoolean()
         {
             string input = null;
-            Assert.AreEqual(null, input.ToNullableBoolean());
+            Assert.AreEqual(null, input.ToBoolean2());
             input = "y";
-            Assert.AreEqual(true, input.ToNullableBoolean());
+            Assert.AreEqual(true, input.ToBoolean2());
             input = "Y";
-            Assert.AreEqual(true, input.ToNullableBoolean());
+            Assert.AreEqual(true, input.ToBoolean2());
             input = "true";
-            Assert.AreEqual(true, input.ToNullableBoolean());
+            Assert.AreEqual(true, input.ToBoolean2());
             input = "True";
-            Assert.AreEqual(true, input.ToNullableBoolean());
+            Assert.AreEqual(true, input.ToBoolean2());
             input = "1";
-            Assert.AreEqual(true, input.ToNullableBoolean());
+            Assert.AreEqual(true, input.ToBoolean2());
             input = "n";
-            Assert.AreEqual(false, input.ToNullableBoolean());
+            Assert.AreEqual(false, input.ToBoolean2());
             input = "N";
-            Assert.AreEqual(false, input.ToNullableBoolean());
+            Assert.AreEqual(false, input.ToBoolean2());
             input = "false";
-            Assert.AreEqual(false, input.ToNullableBoolean());
+            Assert.AreEqual(false, input.ToBoolean2());
             input = "False";
-            Assert.AreEqual(false, input.ToNullableBoolean());
+            Assert.AreEqual(false, input.ToBoolean2());
             input = "0";
-            Assert.AreEqual(false, input.ToNullableBoolean());
+            Assert.AreEqual(false, input.ToBoolean2());
             input = "a";
-            Assert.AreEqual(null, input.ToNullableBoolean());
+            Assert.AreEqual(null, input.ToBoolean2());
         }
     }
 }

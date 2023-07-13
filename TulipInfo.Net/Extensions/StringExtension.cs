@@ -7,7 +7,7 @@ namespace TulipInfo.Net
 {
     public static class StringExtension
     {
-        public static bool? ToNullableBoolean(this string input)
+        public static bool? ToBoolean2(this string input)
         {
             bool? result = null;
             if (input != null)
@@ -42,7 +42,7 @@ namespace TulipInfo.Net
                 || input == "1";
         }
 
-        public static byte? ToNullableByte(this string input)
+        public static byte? ToByte2(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -66,7 +66,7 @@ namespace TulipInfo.Net
                 return 0;
         }
 
-        public static int? ToNullableInt(this string input)
+        public static int? ToInt2(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -90,7 +90,7 @@ namespace TulipInfo.Net
                 return 0;
         }
 
-        public static short? ToNullableInt16(this string input)
+        public static short? ToInt162(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -114,7 +114,7 @@ namespace TulipInfo.Net
                 return 0;
         }
 
-        public static long? ToNullableInt64(this string input)
+        public static long? ToInt642(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -138,7 +138,7 @@ namespace TulipInfo.Net
                 return 0;
         }
 
-        public static float? ToNullableFloat(this string input)
+        public static float? ToFloat2(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -162,7 +162,7 @@ namespace TulipInfo.Net
                 return 0;
         }
 
-        public static double? ToNullableDouble(this string input)
+        public static double? ToDouble2(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -186,7 +186,7 @@ namespace TulipInfo.Net
                 return 0;
         }
 
-        public static decimal? ToNullableDecimal(this string input)
+        public static decimal? ToDecimal2(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -210,7 +210,7 @@ namespace TulipInfo.Net
                 return 0;
         }
 
-        public static DateTime? ToNullableDateTime(this string input)
+        public static DateTime? ToDateTime2(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -230,12 +230,12 @@ namespace TulipInfo.Net
             return null;
         }
 
-        public static DateTime? ToNullableDateTime(this string input, string format)
+        public static DateTime? ToDateTime2(this string input, string format)
         {
-            return input.ToNullableDateTime(format, CultureInfo.InvariantCulture);
+            return input.ToDateTime2(format, CultureInfo.InvariantCulture);
         }
 
-        public static DateTime? ToNullableDateTime(this string input, string format, IFormatProvider formatProvider)
+        public static DateTime? ToDateTime2(this string input, string format, IFormatProvider formatProvider)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
@@ -301,6 +301,19 @@ namespace TulipInfo.Net
             return result;
         }
 
+        public static Guid? ToGuid2(this string input)
+        {
+            Guid result = Guid.Empty;
+            if (Guid.TryParse(input, out result))
+            {
+                return result;
+            }
+            else
+            {
+                return (Guid?)null;
+            }
+        }
+
         public static byte[] ToBytes(this string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -308,17 +321,17 @@ namespace TulipInfo.Net
             return Encoding.UTF8.GetBytes(input);
         }
 
-        public static DataType ToDataType<DataType>(this string input)
+        public static DataType? ToDataType<DataType>(this string input)
         {
             Type t = typeof(DataType);
-            object newValue = null;
+            object? newValue = null;
             if (t == typeof(bool))
             {
                 newValue = input.ToBoolean();
             }
             else if (t == typeof(bool?))
             {
-                newValue = input.ToNullableBoolean();
+                newValue = input.ToBoolean2();
             }
             else if (t == typeof(int))
             {
@@ -326,7 +339,7 @@ namespace TulipInfo.Net
             }
             else if (t == typeof(int?))
             {
-                newValue = input.ToNullableInt();
+                newValue = input.ToInt2();
             }
             else if (t == typeof(short))
             {
@@ -334,7 +347,7 @@ namespace TulipInfo.Net
             }
             else if (t == typeof(short?))
             {
-                newValue = input.ToNullableInt16();
+                newValue = input.ToInt162();
             }
             else if (t == typeof(long))
             {
@@ -342,7 +355,7 @@ namespace TulipInfo.Net
             }
             else if (t == typeof(long?))
             {
-                newValue = input.ToNullableInt64();
+                newValue = input.ToInt642();
             }
             else if (t == typeof(float))
             {
@@ -350,7 +363,7 @@ namespace TulipInfo.Net
             }
             else if (t == typeof(float?))
             {
-                newValue = input.ToNullableFloat();
+                newValue = input.ToFloat2();
             }
             else if (t == typeof(double))
             {
@@ -358,7 +371,7 @@ namespace TulipInfo.Net
             }
             else if (t == typeof(double?))
             {
-                newValue = input.ToNullableDouble();
+                newValue = input.ToDouble2();
             }
             else if (t == typeof(decimal))
             {
@@ -366,7 +379,7 @@ namespace TulipInfo.Net
             }
             else if (t == typeof(decimal?))
             {
-                newValue = input.ToNullableDecimal();
+                newValue = input.ToDecimal2();
             }
             else if (t == typeof(DateTime))
             {
@@ -374,7 +387,7 @@ namespace TulipInfo.Net
             }
             else if (t == typeof(DateTime?))
             {
-                newValue = input.ToNullableDateTime();
+                newValue = input.ToDateTime2();
             }
             else if (t == typeof(Guid))
             {
