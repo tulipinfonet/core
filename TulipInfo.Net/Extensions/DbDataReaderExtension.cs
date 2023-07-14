@@ -67,7 +67,7 @@ namespace TulipInfo.Net
             return TConvert.ToFloat2(sdr[fieldName]);
         }
 
-        public static double GetDouble(this DbDataReader sdr, string fieldName)
+        public static double GetSafeDouble(this DbDataReader sdr, string fieldName)
         {
             return TConvert.ToDouble(sdr[fieldName]);
         }
@@ -77,7 +77,7 @@ namespace TulipInfo.Net
             return TConvert.ToDouble2(sdr[fieldName]);
         }
 
-        public static decimal GetDecimal(this DbDataReader sdr, string fieldName)
+        public static decimal GetSafeDecimal(this DbDataReader sdr, string fieldName)
         {
             return TConvert.ToDecimal(sdr[fieldName]);
         }
