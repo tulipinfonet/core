@@ -38,7 +38,6 @@ namespace TulipInfo.Net
                 return Convert.ToBoolean(input);
             }
             return input!.ToString()!.ToBoolean();
-
         }
 
         public static byte? ToByte2(object? input)
@@ -48,18 +47,22 @@ namespace TulipInfo.Net
                 return null;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToByte(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (byte)input;
             }
-            return input!.ToString()!.ToByte();
+            else
+            {
+                try
+                {
+                    return Convert.ToByte(input);
+                }
+                catch
+                {
+                    //ignore
+                }
+            }
+            return input!.ToString()!.ToByte2();
         }
 
         public static byte ToByte(object? input)
@@ -69,16 +72,20 @@ namespace TulipInfo.Net
                 return 0;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToByte(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (byte)input;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToByte(input);
+                }
+                catch
+                {
+                    //ignore
+                }
             }
             return input!.ToString()!.ToByte();
         }
@@ -90,16 +97,20 @@ namespace TulipInfo.Net
                 return null;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToInt32(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (int)input;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt32(input);
+                }
+                catch
+                {
+                    //ignore
+                }
             }
             return input!.ToString()!.ToInt2();
         }
@@ -111,16 +122,20 @@ namespace TulipInfo.Net
                 return 0;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToInt32(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (int)input;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt32(input);
+                }
+                catch
+                {
+                    //ignore
+                }
             }
             return input!.ToString()!.ToInt();
         }
@@ -132,16 +147,20 @@ namespace TulipInfo.Net
                 return null;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToInt16(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (short)input;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt16(input);
+                }
+                catch
+                {
+                    //ignore
+                }
             }
             return input!.ToString()!.ToInt162();
         }
@@ -153,16 +172,20 @@ namespace TulipInfo.Net
                 return 0;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToInt16(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (short)input;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt16(input);
+                }
+                catch
+                {
+                    //ignore
+                }
             }
             return input!.ToString()!.ToInt16();
         }
@@ -174,16 +197,20 @@ namespace TulipInfo.Net
                 return null;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToInt64(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (long)input;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt64(input);
+                }
+                catch
+                {
+                    //ignore
+                }
             }
             return input!.ToString()!.ToInt642();
         }
@@ -195,16 +222,20 @@ namespace TulipInfo.Net
                 return 0;
             }
             Type type = input.GetType();
-            if (type == typeof(long) || type == typeof(long?)
-                || type == typeof(int) || type == typeof(int?)
-                || type == typeof(short) || type == typeof(short?)
-                || type == typeof(byte) || type == typeof(byte?))
-            {
-                return Convert.ToInt64(input);
-            }
-            else if (type.IsEnum)
+            if (type.IsEnum)
             {
                 return (long)input;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt64(input);
+                }
+                catch
+                {
+                    //ignore
+                }
             }
             return input!.ToString()!.ToInt64();
         }
@@ -215,12 +246,15 @@ namespace TulipInfo.Net
             {
                 return null;
             }
-            Type type = input.GetType();
-            if (type == typeof(float) || type == typeof(float?))
+
+            try
             {
                 return Convert.ToSingle(input);
             }
-            return input!.ToString()!.ToFloat2();
+            catch
+            {
+                return null;
+            }
         }
 
         public static float ToFloat(object? input)
@@ -229,11 +263,15 @@ namespace TulipInfo.Net
             {
                 return 0;
             }
-            Type type = input.GetType();
-            if (type == typeof(float) || type == typeof(float?))
+            try
             {
                 return Convert.ToSingle(input);
             }
+            catch
+            {
+                //ignore
+            }
+
             return input!.ToString()!.ToFloat();
         }
 
@@ -243,12 +281,15 @@ namespace TulipInfo.Net
             {
                 return null;
             }
-            Type type = input.GetType();
-            if (type == typeof(double) || type == typeof(double?))
+
+            try
             {
                 return Convert.ToDouble(input);
             }
-            return input!.ToString()!.ToDouble2();
+            catch
+            {
+                return null;
+            }
         }
 
         public static double ToDouble(object? input)
@@ -257,10 +298,13 @@ namespace TulipInfo.Net
             {
                 return 0;
             }
-            Type type = input.GetType();
-            if (type == typeof(double) || type == typeof(double?))
+            try
             {
                 return Convert.ToDouble(input);
+            }
+            catch
+            {
+                //ignore
             }
             return input!.ToString()!.ToDouble();
         }
@@ -271,12 +315,15 @@ namespace TulipInfo.Net
             {
                 return null;
             }
-            Type type = input.GetType();
-            if (type == typeof(decimal) || type == typeof(decimal?))
+
+            try
             {
                 return Convert.ToDecimal(input);
             }
-            return input!.ToString()!.ToDecimal2();
+            catch
+            {
+                return null;
+            }
         }
 
         public static decimal ToDecimal(object? input)
@@ -285,11 +332,15 @@ namespace TulipInfo.Net
             {
                 return 0;
             }
-            Type type = input.GetType();
-            if (type == typeof(decimal) || type == typeof(decimal?))
+            try
             {
                 return Convert.ToDecimal(input);
             }
+            catch
+            {
+                //ignore
+            }
+
             return input!.ToString()!.ToDecimal();
         }
 
