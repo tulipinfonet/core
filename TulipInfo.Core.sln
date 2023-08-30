@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Oracle", "Tul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipInfo.Net.SendGrid", "TulipInfo.Net.SendGrid\TulipInfo.Net.SendGrid.csproj", "{5229144D-9C6C-4E1E-8204-77E24A0F3648}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipInfo.Net.SendGrid.Tests", "TulipInfo.Net.SendGrid.Tests\TulipInfo.Net.SendGrid.Tests.csproj", "{7227951C-3E6C-4928-9B8E-FACAABD50CFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{5229144D-9C6C-4E1E-8204-77E24A0F3648}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5229144D-9C6C-4E1E-8204-77E24A0F3648}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5229144D-9C6C-4E1E-8204-77E24A0F3648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7227951C-3E6C-4928-9B8E-FACAABD50CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7227951C-3E6C-4928-9B8E-FACAABD50CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7227951C-3E6C-4928-9B8E-FACAABD50CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7227951C-3E6C-4928-9B8E-FACAABD50CFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{18FB0930-375B-4C5F-A6D0-51C16E954D6E} = {42AB1BAA-647C-43AF-B1BE-51F259D37FDD}
 		{7F0EE0C5-E715-4E01-A7BA-EA82C05BAF73} = {42AB1BAA-647C-43AF-B1BE-51F259D37FDD}
 		{413D1A67-A5D7-4923-80B1-95596795D290} = {42AB1BAA-647C-43AF-B1BE-51F259D37FDD}
+		{7227951C-3E6C-4928-9B8E-FACAABD50CFA} = {42AB1BAA-647C-43AF-B1BE-51F259D37FDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F0B41CD-2C3D-4098-99B6-ED9EEBB468B9}

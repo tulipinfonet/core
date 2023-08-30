@@ -49,33 +49,45 @@ namespace TulipInfo.Net.SendGrid
             }
             _logger.LogInformation(sb.ToString());
 
-            try
+            bool success = false;
+            int retryCount = 0;
+            while (!success && retryCount < 3)
             {
-                var client = new SendGridClient(_options.ApiKey);
-                var from = new EmailAddress(_options.MailFrom, _options.MailFromDisplayName);
-                List<EmailAddress> tos = emailMessage.MailTo.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(t => new EmailAddress(t)).ToList();
-                var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from,
-                    tos,
-                    emailMessage.Subject, "", emailMessage.Body);
-                if (emailMessage.Attachments != null && emailMessage.Attachments.Count > 0)
+                try
                 {
-                    foreach (var att in emailMessage.Attachments)
-                    {
-                        await msg.AddAttachmentAsync(att.Key, new MemoryStream(att.Value));
-                    }
+                    await SendEmail(emailMessage);
+                    success = true;
                 }
-
-                var response = await client.SendEmailAsync(msg);
-
-                string responseText = await response.Body.ReadAsStringAsync();
-
-                _logger.LogInformation($"Send Grid Response:{responseText}");
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "SendGridError");
+                    retryCount++;
+                }
             }
-            catch (Exception ex)
+        }
+
+        async Task SendEmail(EmailMessage emailMessage)
+        {
+            var client = new SendGridClient(_options.ApiKey);
+            var from = new EmailAddress(_options.MailFrom, _options.MailFromDisplayName);
+            List<EmailAddress> tos = emailMessage.MailTo.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => new EmailAddress(t)).ToList();
+            var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from,
+                tos,
+                emailMessage.Subject, "", emailMessage.Body);
+            if (emailMessage.Attachments != null && emailMessage.Attachments.Count > 0)
             {
-                _logger.LogError(ex, "SendGridError");
+                foreach (var att in emailMessage.Attachments)
+                {
+                    await msg.AddAttachmentAsync(att.Key, new MemoryStream(att.Value));
+                }
             }
+
+            var response = await client.SendEmailAsync(msg);
+
+            string responseText = await response.Body.ReadAsStringAsync();
+
+            _logger.LogInformation($"Send Grid Response:{responseText}");
         }
     }
 }
