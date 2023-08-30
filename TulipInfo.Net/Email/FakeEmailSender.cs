@@ -10,29 +10,15 @@ namespace TulipInfo.Net
 {
     public class FakeEmailSender : IEmailSender
     {
-        protected ILogger Logger { get; private set; }
-        protected SmtpEmailSenderOptions Options { get; private set; }
-        public FakeEmailSender(ILogger<FakeEmailSender> logger,
-            IOptions<SmtpEmailSenderOptions> options)
+        private readonly ILogger _logger;
+        public FakeEmailSender(ILogger<FakeEmailSender> logger)
         {
-            Logger = logger;
-            Options = options.Value;
+            _logger = logger;
         }
 
-        private void WriteLog(string methodName, SmtpEmailSenderOptions opt, EmailMessage emailMessage)
+        private void WriteLog(string methodName, EmailMessage emailMessage)
         {
             StringBuilder sb = new StringBuilder(methodName);
-            sb.AppendLine($"Host:{opt.Host}");
-            sb.AppendLine($"Port:{opt.Port}");
-            sb.AppendLine($"Username:{opt.UserName}");
-            sb.AppendLine($"Domain:{opt.Domain}");
-            sb.AppendLine($"EnableSSL:{opt.EnableSSL}");
-            sb.AppendLine($"MailFrom:{opt.MailFrom}");
-            sb.AppendLine($"MailFromDisplayName:{opt.MailFromDisplayName}");
-            sb.AppendLine($"OnBehalfOf:{opt.OnBehalfOf}");
-            sb.AppendLine($"UseDefaultCredentials:{(opt.UseDefaultCredentials.HasValue ? string.Empty : opt.UseDefaultCredentials.ToString())}");
-            sb.AppendLine($"SecurityProtocol:{opt.SecurityProtocol}");
-            sb.AppendLine($"DeliveryMethod:{opt.DeliveryMethod}");
             sb.AppendLine($"MailtoOnBehalfOf:{emailMessage.OnBehalfOf}");
             sb.AppendLine($"Mailto:{emailMessage.MailTo}");
             sb.AppendLine($"Subject:{emailMessage.Subject}");
@@ -46,17 +32,17 @@ namespace TulipInfo.Net
                     attIndex++;
                 }
             }
-            Logger.LogInformation(sb.ToString());
+            _logger.LogInformation(sb.ToString());
         }
 
         public virtual void Send(EmailMessage emailMessage)
         {
-            WriteLog("Send", this.Options, emailMessage);
+            WriteLog("Send",emailMessage);
         }
 
         public virtual Task SendAsync(EmailMessage emailMessage)
         {
-            WriteLog("SendAsync", this.Options, emailMessage);
+            WriteLog("SendAsync", emailMessage);
             return Task.CompletedTask;
         }
     }
