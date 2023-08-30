@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Drawing.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TulipInfo.Net.Oracle", "TulipInfo.Net.Oracle\TulipInfo.Net.Oracle.csproj", "{13CFFD55-55B3-4DAC-8CDD-92D3D440D592}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TulipInfo.Net.SendGrid", "TulipInfo.Net.SendGrid\TulipInfo.Net.SendGrid.csproj", "{5229144D-9C6C-4E1E-8204-77E24A0F3648}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{13CFFD55-55B3-4DAC-8CDD-92D3D440D592}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13CFFD55-55B3-4DAC-8CDD-92D3D440D592}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13CFFD55-55B3-4DAC-8CDD-92D3D440D592}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5229144D-9C6C-4E1E-8204-77E24A0F3648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5229144D-9C6C-4E1E-8204-77E24A0F3648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5229144D-9C6C-4E1E-8204-77E24A0F3648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5229144D-9C6C-4E1E-8204-77E24A0F3648}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

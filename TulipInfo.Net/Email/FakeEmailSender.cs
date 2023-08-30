@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TulipInfo.Net
 {
@@ -53,9 +54,10 @@ namespace TulipInfo.Net
             WriteLog("Send", this.Options, emailMessage);
         }
 
-        public virtual void SendAsync(EmailMessage emailMessage)
+        public virtual Task SendAsync(EmailMessage emailMessage)
         {
             WriteLog("SendAsync", this.Options, emailMessage);
+            return Task.CompletedTask;
         }
     }
 }

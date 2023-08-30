@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TulipInfo.Net
 {
@@ -25,9 +26,9 @@ namespace TulipInfo.Net
             }
         }
 
-        public override void SendAsync(EmailMessage emailMessage)
+        public async override Task SendAsync(EmailMessage emailMessage)
         {
-            base.SendAsync(emailMessage);
+            await base.SendAsync(emailMessage);
 
             if (this.Options.UseFake == false)
             {
